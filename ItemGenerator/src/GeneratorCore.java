@@ -31,8 +31,8 @@ public class GeneratorCore extends JFrame {
 	private static MacroInventory inventories;
 	
 	private ArrayList<JRadioButton> enabledInventories;
-	private ArrayList<JSlider> InventoryProbabilities;
-	private ArrayList<JTextField> InventoryAttributes;
+	private ArrayList<JSlider> inventoryProbabilities;
+	private ArrayList<JTextField> inventoryAttributes;
 	
 	
 	/**
@@ -79,8 +79,8 @@ public class GeneratorCore extends JFrame {
 		
 		
 		enabledInventories = new ArrayList<JRadioButton>();
-		InventoryAttributes = new ArrayList<JTextField>();
-		InventoryProbabilities = new ArrayList<JSlider>();
+		inventoryAttributes = new ArrayList<JTextField>();
+		inventoryProbabilities = new ArrayList<JSlider>();
 		
 		
 		for(int i = 0; i < inventories.getInventoryCount(); i++){
@@ -119,7 +119,7 @@ public class GeneratorCore extends JFrame {
 			
 			
 			JTextField txtLevel = new JTextField();
-			InventoryAttributes.add(txtLevel);
+			inventoryAttributes.add(txtLevel);
 			GridBagConstraints gbc_txtLevel = new GridBagConstraints();
 			gbc_txtLevel.insets = new Insets(5, 3, 5, 3);
 			gbc_txtLevel.gridx = 2;
@@ -129,7 +129,7 @@ public class GeneratorCore extends JFrame {
 			
 			
 			JSlider sliderProbability = new JSlider();
-			InventoryProbabilities.add(sliderProbability);
+			inventoryProbabilities.add(sliderProbability);
 			GridBagConstraints gbc_sliderProbability = new GridBagConstraints();
 			gbc_sliderProbability.gridwidth = 2;
 			gbc_sliderProbability.insets = new Insets(0, 0, 0, 5);
@@ -175,21 +175,19 @@ public class GeneratorCore extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				
-				String output = "";
-				for(int i = 0; i < enabledInventories.size(); i++){
-					
-					if (enabledInventories.get(i).isSelected()){
-						output += inventories.getInventoryName(i) + " "+ InventoryProbabilities.get(i).getValue() + " " + InventoryAttributes.get(i).getText() + "\n";
+				
+				
+				int n = Integer.parseInt(txtNumberOfItems.getText());
+				if (n > 0){
+					ArrayList<Item> items = inventories.getItems(enabledInventories, inventoryProbabilities, inventoryAttributes, n);
+					String output = "";
+					for (Item c : items){
+						output += c.getName().replaceAll("[_]", " ") + "\n";
 					}
-					
+					txtOutputBox.setText(output);
 				}
-				txtOutputBox.setText(output);
+
 				
-				
-				
-				
-				
-				// Generate list of items to display
 			}
 		});
 		panelControl.add(btnGenerate);

@@ -2,6 +2,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import javax.swing.JRadioButton;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
+
 public class MacroInventory {
 	
 	private ArrayList<Inventory> inventories;
@@ -53,10 +57,43 @@ public class MacroInventory {
 	
 	
 	
-	public Item getItem(){
-		// Randomly select an inventory to draw an item from
-		return null;
+	public Item getItem(ArrayList<JRadioButton> enabledInventories, ArrayList<JSlider> inventoryProbabilities, ArrayList<JTextField> inventoryAttributes){
+		
+		return getItems(enabledInventories, inventoryProbabilities, inventoryAttributes, 1).get(0);
 	}
+	
+	public ArrayList<Item> getItems(ArrayList<JRadioButton> enabledInventories, ArrayList<JSlider> inventoryProbabilities, ArrayList<JTextField> inventoryAttributes, int n){
+		
+		ArrayList<Item> items = new ArrayList<Item>();
+		
+		int totalProbabilities = 0;
+		for (int i = 0; i < enabledInventories.size(); i++){
+			if (enabledInventories.get(i).isSelected()){
+				totalProbabilities += inventoryProbabilities.get(i).getValue();
+			}
+		}
+		
+		while(n > 0){
+			double selection = Math.random() * totalProbabilities;
+			int count = 0;
+			
+			for (int i = 0; i < enabledInventories.size(); i++){
+				if (enabledInventories.get(i).isSelected()){
+					count += inventoryProbabilities.get(i).getValue();
+					if (selection < count){
+						selection = i;
+						break;
+					}
+				}
+			}
+			items.add(inventories.get((int) selection).getItem());
+			n--;
+		}
+		
+		return items;
+	}
+	
+	
 	
 	public Item getItemByAttribute(int attributeIndex, double lower, double upper){
 		//Randomly select an inventory to draw from, but  using a specific set of parameters
@@ -87,21 +124,6 @@ public class MacroInventory {
 	}
 	
 	
-	public void setEnableInventory(int index, boolean set){
-		inventories.get(index).setEnabled(set);
-	}
-	
-	public void setProbabilityInventory(int index, int probability){
-		inventories.get(index).setProbability(probability);
-	}
-	
-	public boolean getEnableInventory(int index){
-		return inventories.get(index).isEnabled();
-	}
-	
-	public int getProbabilityInventory(int index){
-		return inventories.get(index).getProbability();
-	}
-	
+
 	
 }

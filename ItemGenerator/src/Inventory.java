@@ -6,13 +6,6 @@ public class Inventory {
 	private ArrayList<Item> items;
 	private String inventoryName;
 	
-
-
-	private int probability;
-	private boolean enabled;
-	
-	
-	
 	public Inventory(String name){
 		inventoryName = name;
 		items = new ArrayList<Item>();
@@ -22,9 +15,18 @@ public class Inventory {
 		items.add(item);
 	}
 	
+	
+	public ArrayList<Item> getItems(int n){
+		ArrayList<Item> generatedItems = new ArrayList<Item>();
+		while (n > 0){
+			generatedItems.add(items.get((int) (Math.random() * items.size())));
+			n--;
+		}
+		return generatedItems;
+	}
+	
 	public Item getItem(){
-		// Randomly select an item and return it
-		return null;
+		return getItems(1).get(0);
 	}
 	
 	public Item getItemByAttribute(int attributeIndex, double lower, double upper){
@@ -36,20 +38,6 @@ public class Inventory {
 		return inventoryName;
 	}
 	
-	public int getProbability() {
-		return probability;
-	}
 
-	public void setProbability(int probability) {
-		this.probability = probability;
-	}
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
 	
 }
