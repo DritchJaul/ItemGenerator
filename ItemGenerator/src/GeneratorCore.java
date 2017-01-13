@@ -1,9 +1,11 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -16,16 +18,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.border.LineBorder;
 
 public class GeneratorCore extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	//private JTextField txtLevel;
 	private JTextField txtNumberOfItems;
 	private JTextField txtValueOfItems;
 	private static MacroInventory inventories;
@@ -34,14 +33,11 @@ public class GeneratorCore extends JFrame {
 	private ArrayList<JSlider> inventoryProbabilities;
 	private ArrayList<JTextField> inventoryAttributes;
 	
-	
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		
 		
-		
+		// Generate the inventories from a given file
 		inventories = new MacroInventory("data/ItemList_D&D_Fantasy.txt");
 		
 		
@@ -61,9 +57,7 @@ public class GeneratorCore extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+	// Create and run the JFrame
 	public GeneratorCore() {
 		setTitle("Item Generator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,15 +72,14 @@ public class GeneratorCore extends JFrame {
 		panelInventories.setLayout(gbl_panelInventories);
 		
 		
+		// Make sets of all the inventory inputs
 		enabledInventories = new ArrayList<JRadioButton>();
 		inventoryAttributes = new ArrayList<JTextField>();
 		inventoryProbabilities = new ArrayList<JSlider>();
 		
-		
+		// Create the interface for each of the inventories
 		for(int i = 0; i < inventories.getInventoryCount(); i++){
 			
-			
-		
 			JPanel panelInventoryControl = new JPanel();
 			panelInventoryControl.setBorder(new LineBorder(new Color(0, 0, 0)));
 			GridBagConstraints gbc_panelInventoryControl = new GridBagConstraints();
@@ -95,8 +88,8 @@ public class GeneratorCore extends JFrame {
 			gbc_panelInventoryControl.insets = new Insets(0, 0, 5, 0);
 			//gbc_panelInventoryControl.gridx = 0;
 			//gbc_panelInventoryControl.gridy = 0;
-			gbc_panelInventoryControl.gridx = i / 10;
-			gbc_panelInventoryControl.gridy = i % 10;
+			gbc_panelInventoryControl.gridx = i / 16; // The inputs will be in columns 16 high
+			gbc_panelInventoryControl.gridy = i % 16;
 			
 			
 			panelInventories.add(panelInventoryControl, gbc_panelInventoryControl);
@@ -109,7 +102,7 @@ public class GeneratorCore extends JFrame {
 			panelInventoryControl.setLayout(gbl_panelInventoryControl);
 			
 
-			JLabel itemLabel = new JLabel(inventories.getInventoryName(i));
+			JLabel itemLabel = new JLabel(inventories.getInventoryName(i).replaceAll("[_]", " "));
 			//JLabel itemLabel = new JLabel("Inventory");
 			GridBagConstraints gbc_itemLabel = new GridBagConstraints();
 			gbc_itemLabel.insets = new Insets(0, 0, 0, 5);
@@ -160,12 +153,20 @@ public class GeneratorCore extends JFrame {
 			panelInventoryControl.add(rdbtnUseInventory, gbc_rdbtnUseInventory);
 		
 		}
+			
+
+
+		
+		ScrollPane scrollPane = new ScrollPane();
+		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		scrollPane.setPreferredSize(new Dimension(300, 100));
 		
 		
-		
-		
-		JTextPane txtOutputBox = new JTextPane();
-		getContentPane().add(txtOutputBox, BorderLayout.CENTER);
+		JTextArea txtOutputBox = new JTextArea();
+		txtOutputBox.setText("Items Generated Displayed Here");
+
+		txtOutputBox.setLineWrap(true);
+		scrollPane.add(txtOutputBox, BorderLayout.CENTER);
 		
 		JPanel panelControl = new JPanel();
 		getContentPane().add(panelControl, BorderLayout.SOUTH);
@@ -175,9 +176,16 @@ public class GeneratorCore extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				
+				// Sanitize the input from the txtNumberOfItems
+				int n = 0;
+				try{
+					n = Integer.parseInt(txtNumberOfItems.getText());
+				}
+				catch(java.lang.NumberFormatException e){
+					
+				}
 				
-				
-				int n = Integer.parseInt(txtNumberOfItems.getText());
+				// Generate n items
 				if (n > 0){
 					ArrayList<Item> items = inventories.getItems(enabledInventories, inventoryProbabilities, inventoryAttributes, n);
 					String output = "";
@@ -202,12 +210,14 @@ public class GeneratorCore extends JFrame {
 		panelNumberOfItems.setLayout(gbl_panelNumberOfItems);
 		
 		txtNumberOfItems = new JTextField();
+		
 		GridBagConstraints gbc_txtNumberOfItems = new GridBagConstraints();
 		gbc_txtNumberOfItems.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtNumberOfItems.gridx = 0;
 		gbc_txtNumberOfItems.gridy = 1;
 		panelNumberOfItems.add(txtNumberOfItems, gbc_txtNumberOfItems);
 		txtNumberOfItems.setColumns(10);
+		txtNumberOfItems.setText("10");
 		
 		JLabel lblNmber = new JLabel("Number of Items");
 		GridBagConstraints gbc_lblNmber = new GridBagConstraints();
@@ -237,6 +247,11 @@ public class GeneratorCore extends JFrame {
 		gbc_txtValueOfItems.gridx = 0;
 		gbc_txtValueOfItems.gridy = 1;
 		panelValueOfItems.add(txtValueOfItems, gbc_txtValueOfItems);
+		
+		
+		
+		
+
 		
 
 

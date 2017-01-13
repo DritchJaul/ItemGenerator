@@ -4,7 +4,8 @@ public class TypeInventory extends Inventory{
 	
 	private TypeList types;
 	
-	public TypeInventory(TypeList list){
+	public TypeInventory(String name, TypeList list){
+		super(name);
 		types = list;
 	}
 	
