@@ -4,6 +4,10 @@ import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,7 +20,11 @@ import javax.swing.JTextPane;
 import javax.swing.border.LineBorder;
 
 public class GeneratorCore extends JFrame {
-	private JTextField txtLevel;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	//private JTextField txtLevel;
 	private JTextField txtNumberOfItems;
 	private JTextField txtValueOfItems;
 
@@ -24,6 +32,19 @@ public class GeneratorCore extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+		
+		
+		//MacroInventory inventories = new MacroInventory();
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -44,10 +65,6 @@ public class GeneratorCore extends JFrame {
 		setTitle("Item Generator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		
-		
-		
-		
 		JPanel panelInventories = new JPanel();
 		getContentPane().add(panelInventories, BorderLayout.WEST);
 		GridBagLayout gbl_panelInventories = new GridBagLayout();
@@ -57,55 +74,91 @@ public class GeneratorCore extends JFrame {
 		gbl_panelInventories.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		panelInventories.setLayout(gbl_panelInventories);
 		
-		JPanel panelInventoryControl = new JPanel();
-		panelInventoryControl.setBorder(new LineBorder(new Color(0, 0, 0)));
-		GridBagConstraints gbc_panelInventoryControl = new GridBagConstraints();
-		gbc_panelInventoryControl.fill = GridBagConstraints.VERTICAL;
-		gbc_panelInventoryControl.anchor = GridBagConstraints.WEST;
-		gbc_panelInventoryControl.insets = new Insets(0, 0, 5, 0);
-		gbc_panelInventoryControl.gridx = 0;
-		gbc_panelInventoryControl.gridy = 0;
-		panelInventories.add(panelInventoryControl, gbc_panelInventoryControl);
-		GridBagLayout gbl_panelInventoryControl = new GridBagLayout();
-		gbl_panelInventoryControl.columnWidths = new int[] {10, 0};
-		gbl_panelInventoryControl.rowHeights = new int[] {20, 0, 0};
-		gbl_panelInventoryControl.columnWeights = new double[]{0.0, 1.0};
-		gbl_panelInventoryControl.rowWeights = new double[]{0.0, 0.0, 0.0};
-		panelInventoryControl.setLayout(gbl_panelInventoryControl);
 		
-		JRadioButton rdbtnUseInventory = new JRadioButton("New radio button");
-		GridBagConstraints gbc_rdbtnUseInventory = new GridBagConstraints();
-		gbc_rdbtnUseInventory.gridx = 0;
-		gbc_rdbtnUseInventory.gridy = 1;
-		panelInventoryControl.add(rdbtnUseInventory, gbc_rdbtnUseInventory);
 		
-		txtLevel = new JTextField();
-		GridBagConstraints gbc_txtLevel = new GridBagConstraints();
-		gbc_txtLevel.insets = new Insets(0, 1, 1, 5);
-		gbc_txtLevel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtLevel.gridx = 1;
-		gbc_txtLevel.gridy = 1;
-		panelInventoryControl.add(txtLevel, gbc_txtLevel);
-		txtLevel.setColumns(10);
 		
-		JSlider sliderProbability = new JSlider();
-		GridBagConstraints gbc_sliderProbability = new GridBagConstraints();
-		gbc_sliderProbability.gridwidth = 2;
-		gbc_sliderProbability.gridx = 0;
-		gbc_sliderProbability.gridy = 2;
-		panelInventoryControl.add(sliderProbability, gbc_sliderProbability);
 		
-		JLabel itemLabel = new JLabel("New label");
-		GridBagConstraints gbc_itemLabel = new GridBagConstraints();
-		gbc_itemLabel.gridwidth = 2;
-		gbc_itemLabel.gridx = 0;
-		gbc_itemLabel.gridy = 0;
-		panelInventoryControl.add(itemLabel, gbc_itemLabel);
+		//for(int i = 0; i < 10; i++){
+		
+		
+			JPanel panelInventoryControl = new JPanel();
+			panelInventoryControl.setBorder(new LineBorder(new Color(0, 0, 0)));
+			GridBagConstraints gbc_panelInventoryControl = new GridBagConstraints();
+			gbc_panelInventoryControl.fill = GridBagConstraints.VERTICAL;
+			gbc_panelInventoryControl.anchor = GridBagConstraints.WEST;
+			gbc_panelInventoryControl.insets = new Insets(0, 0, 5, 0);
+			gbc_panelInventoryControl.gridx = 0;
+			gbc_panelInventoryControl.gridy = 0; // Change to i when the loop is implemented
+			panelInventories.add(panelInventoryControl, gbc_panelInventoryControl);
+			
+			GridBagLayout gbl_panelInventoryControl = new GridBagLayout();
+			gbl_panelInventoryControl.columnWidths = new int[] {10, 0, 0};
+			gbl_panelInventoryControl.rowHeights = new int[] {20, 0};
+			gbl_panelInventoryControl.columnWeights = new double[]{0.0, 1.0, 0.0};
+			gbl_panelInventoryControl.rowWeights = new double[]{0.0, 0.0};
+			panelInventoryControl.setLayout(gbl_panelInventoryControl);
+			
+
+			
+			JLabel itemLabel = new JLabel("Inventory Name");
+			GridBagConstraints gbc_itemLabel = new GridBagConstraints();
+			gbc_itemLabel.insets = new Insets(0, 0, 0, 5);
+			gbc_itemLabel.gridx = 1;
+			gbc_itemLabel.gridy = 0;
+			panelInventoryControl.add(itemLabel, gbc_itemLabel);
+			
+			JTextField txtLevel = new JTextField();
+			GridBagConstraints gbc_txtLevel = new GridBagConstraints();
+			gbc_txtLevel.insets = new Insets(5, 3, 5, 3);
+			gbc_txtLevel.gridx = 2;
+			gbc_txtLevel.gridy = 0;
+			panelInventoryControl.add(txtLevel, gbc_txtLevel);
+			txtLevel.setColumns(3);
+			
+			JSlider sliderProbability = new JSlider();
+			GridBagConstraints gbc_sliderProbability = new GridBagConstraints();
+			gbc_sliderProbability.gridwidth = 2;
+			gbc_sliderProbability.insets = new Insets(0, 0, 0, 5);
+			gbc_sliderProbability.gridx = 1;
+			gbc_sliderProbability.gridy = 1;
+			panelInventoryControl.add(sliderProbability, gbc_sliderProbability);
+		
+			JRadioButton rdbtnUseInventory = new JRadioButton("");
+			rdbtnUseInventory.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					itemLabel.setEnabled(rdbtnUseInventory.isSelected());
+					txtLevel.setEnabled(rdbtnUseInventory.isSelected());
+					sliderProbability.setEnabled(rdbtnUseInventory.isSelected());
+					
+				}
+			});
+
+			rdbtnUseInventory.setSelected(true);
+			GridBagConstraints gbc_rdbtnUseInventory = new GridBagConstraints();
+			gbc_rdbtnUseInventory.insets = new Insets(0, 0, 5, 5);
+			gbc_rdbtnUseInventory.gridx = 0;
+			gbc_rdbtnUseInventory.gridy = 0;
+			panelInventoryControl.add(rdbtnUseInventory, gbc_rdbtnUseInventory);
+		
+		//}
+		
+		
+		
+		
+		JTextPane txtOutputBox = new JTextPane();
+		getContentPane().add(txtOutputBox, BorderLayout.CENTER);
 		
 		JPanel panelControl = new JPanel();
 		getContentPane().add(panelControl, BorderLayout.SOUTH);
 		
 		JButton btnGenerate = new JButton("Generate");
+		btnGenerate.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// Generate list of items to display
+			}
+		});
 		panelControl.add(btnGenerate);
 		
 		JPanel panelNumberOfItems = new JPanel();
@@ -154,8 +207,7 @@ public class GeneratorCore extends JFrame {
 		gbc_txtValueOfItems.gridy = 1;
 		panelValueOfItems.add(txtValueOfItems, gbc_txtValueOfItems);
 		
-		JTextPane txtOutputBox = new JTextPane();
-		getContentPane().add(txtOutputBox, BorderLayout.CENTER);
+
 
 	}
 }
