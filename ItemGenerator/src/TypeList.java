@@ -14,7 +14,10 @@ public class TypeList {
 		types.add(new Type(type));
 	}
 	
-	
+	public Type getRandomType(){
+		// Select a random type from types.
+		return null;
+	}
 	
 	
 	
