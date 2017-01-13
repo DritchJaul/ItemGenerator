@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,7 +28,13 @@ public class GeneratorCore extends JFrame {
 	//private JTextField txtLevel;
 	private JTextField txtNumberOfItems;
 	private JTextField txtValueOfItems;
-
+	private static MacroInventory inventories;
+	
+	private ArrayList<JRadioButton> enabledInventories;
+	private ArrayList<JSlider> InventoryProbabilities;
+	private ArrayList<JTextField> InventoryAttributes;
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -35,11 +42,7 @@ public class GeneratorCore extends JFrame {
 		
 		
 		
-		//MacroInventory inventories = new MacroInventory();
-		
-		
-		
-		
+		inventories = new MacroInventory("data/ItemList_D&D_Fantasy.txt");
 		
 		
 		
@@ -75,11 +78,14 @@ public class GeneratorCore extends JFrame {
 		panelInventories.setLayout(gbl_panelInventories);
 		
 		
+		enabledInventories = new ArrayList<JRadioButton>();
+		InventoryAttributes = new ArrayList<JTextField>();
+		InventoryProbabilities = new ArrayList<JSlider>();
 		
 		
-		
-		//for(int i = 0; i < 10; i++){
-		
+		for(int i = 0; i < inventories.getInventoryCount(); i++){
+			
+			
 		
 			JPanel panelInventoryControl = new JPanel();
 			panelInventoryControl.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -87,8 +93,12 @@ public class GeneratorCore extends JFrame {
 			gbc_panelInventoryControl.fill = GridBagConstraints.VERTICAL;
 			gbc_panelInventoryControl.anchor = GridBagConstraints.WEST;
 			gbc_panelInventoryControl.insets = new Insets(0, 0, 5, 0);
-			gbc_panelInventoryControl.gridx = 0;
-			gbc_panelInventoryControl.gridy = 0; // Change to i when the loop is implemented
+			//gbc_panelInventoryControl.gridx = 0;
+			//gbc_panelInventoryControl.gridy = 0;
+			gbc_panelInventoryControl.gridx = i / 10;
+			gbc_panelInventoryControl.gridy = i % 10;
+			
+			
 			panelInventories.add(panelInventoryControl, gbc_panelInventoryControl);
 			
 			GridBagLayout gbl_panelInventoryControl = new GridBagLayout();
@@ -99,15 +109,17 @@ public class GeneratorCore extends JFrame {
 			panelInventoryControl.setLayout(gbl_panelInventoryControl);
 			
 
-			
-			JLabel itemLabel = new JLabel("Inventory Name");
+			JLabel itemLabel = new JLabel(inventories.getInventoryName(i));
+			//JLabel itemLabel = new JLabel("Inventory");
 			GridBagConstraints gbc_itemLabel = new GridBagConstraints();
 			gbc_itemLabel.insets = new Insets(0, 0, 0, 5);
 			gbc_itemLabel.gridx = 1;
 			gbc_itemLabel.gridy = 0;
 			panelInventoryControl.add(itemLabel, gbc_itemLabel);
 			
+			
 			JTextField txtLevel = new JTextField();
+			InventoryAttributes.add(txtLevel);
 			GridBagConstraints gbc_txtLevel = new GridBagConstraints();
 			gbc_txtLevel.insets = new Insets(5, 3, 5, 3);
 			gbc_txtLevel.gridx = 2;
@@ -115,7 +127,9 @@ public class GeneratorCore extends JFrame {
 			panelInventoryControl.add(txtLevel, gbc_txtLevel);
 			txtLevel.setColumns(3);
 			
+			
 			JSlider sliderProbability = new JSlider();
+			InventoryProbabilities.add(sliderProbability);
 			GridBagConstraints gbc_sliderProbability = new GridBagConstraints();
 			gbc_sliderProbability.gridwidth = 2;
 			gbc_sliderProbability.insets = new Insets(0, 0, 0, 5);
@@ -123,7 +137,9 @@ public class GeneratorCore extends JFrame {
 			gbc_sliderProbability.gridy = 1;
 			panelInventoryControl.add(sliderProbability, gbc_sliderProbability);
 		
+
 			JRadioButton rdbtnUseInventory = new JRadioButton("");
+			enabledInventories.add(rdbtnUseInventory);
 			rdbtnUseInventory.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
@@ -134,6 +150,8 @@ public class GeneratorCore extends JFrame {
 				}
 			});
 
+			
+			
 			rdbtnUseInventory.setSelected(true);
 			GridBagConstraints gbc_rdbtnUseInventory = new GridBagConstraints();
 			gbc_rdbtnUseInventory.insets = new Insets(0, 0, 5, 5);
@@ -141,7 +159,7 @@ public class GeneratorCore extends JFrame {
 			gbc_rdbtnUseInventory.gridy = 0;
 			panelInventoryControl.add(rdbtnUseInventory, gbc_rdbtnUseInventory);
 		
-		//}
+		}
 		
 		
 		
@@ -156,6 +174,21 @@ public class GeneratorCore extends JFrame {
 		btnGenerate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
+				
+				String output = "";
+				for(int i = 0; i < enabledInventories.size(); i++){
+					
+					if (enabledInventories.get(i).isSelected()){
+						output += inventories.getInventoryName(i) + " "+ InventoryProbabilities.get(i).getValue() + " " + InventoryAttributes.get(i).getText() + "\n";
+					}
+					
+				}
+				txtOutputBox.setText(output);
+				
+				
+				
+				
+				
 				// Generate list of items to display
 			}
 		});

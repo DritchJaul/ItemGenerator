@@ -4,8 +4,17 @@ public class Inventory {
 	
 	
 	private ArrayList<Item> items;
+	private String inventoryName;
 	
-	public Inventory(){
+
+
+	private int probability;
+	private boolean enabled;
+	
+	
+	
+	public Inventory(String name){
+		inventoryName = name;
 		items = new ArrayList<Item>();
 	}
 	
@@ -23,8 +32,24 @@ public class Inventory {
 		return null;
 	}
 	
+	public String getName(){
+		return inventoryName;
+	}
 	
-	
-	
+	public int getProbability() {
+		return probability;
+	}
+
+	public void setProbability(int probability) {
+		this.probability = probability;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 	
 }
