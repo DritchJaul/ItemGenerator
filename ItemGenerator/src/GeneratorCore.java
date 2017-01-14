@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -112,14 +113,19 @@ public class GeneratorCore extends JFrame {
 			
 			
 			JTextField txtLevel = new JTextField();
-			inventoryAttributes.add(txtLevel);
-			GridBagConstraints gbc_txtLevel = new GridBagConstraints();
-			gbc_txtLevel.insets = new Insets(5, 3, 5, 3);
-			gbc_txtLevel.gridx = 2;
-			gbc_txtLevel.gridy = 0;
-			panelInventoryControl.add(txtLevel, gbc_txtLevel);
-			txtLevel.setColumns(3);
-			
+			if (inventories.getInventory(i) instanceof TypeInventory){
+				inventoryAttributes.add(txtLevel);
+				GridBagConstraints gbc_txtLevel = new GridBagConstraints();
+				gbc_txtLevel.insets = new Insets(5, 3, 5, 3);
+				gbc_txtLevel.gridx = 2;
+				gbc_txtLevel.gridy = 0;
+				panelInventoryControl.add(txtLevel, gbc_txtLevel);
+				txtLevel.setColumns(3);
+
+			}else{
+				inventoryAttributes.add(null);
+			}
+
 			
 			JSlider sliderProbability = new JSlider();
 			inventoryProbabilities.add(sliderProbability);
@@ -142,10 +148,11 @@ public class GeneratorCore extends JFrame {
 					
 				}
 			});
-
+			rdbtnUseInventory.setSelected(false);
+			itemLabel.setEnabled(rdbtnUseInventory.isSelected());
+			txtLevel.setEnabled(rdbtnUseInventory.isSelected());
+			sliderProbability.setEnabled(rdbtnUseInventory.isSelected());
 			
-			
-			rdbtnUseInventory.setSelected(true);
 			GridBagConstraints gbc_rdbtnUseInventory = new GridBagConstraints();
 			gbc_rdbtnUseInventory.insets = new Insets(0, 0, 5, 5);
 			gbc_rdbtnUseInventory.gridx = 0;
@@ -159,7 +166,7 @@ public class GeneratorCore extends JFrame {
 		
 		ScrollPane scrollPane = new ScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
-		scrollPane.setPreferredSize(new Dimension(300, 100));
+		scrollPane.setPreferredSize(new Dimension(500, 100));
 		
 		
 		JTextArea txtOutputBox = new JTextArea();
@@ -167,6 +174,7 @@ public class GeneratorCore extends JFrame {
 
 		txtOutputBox.setLineWrap(true);
 		scrollPane.add(txtOutputBox, BorderLayout.CENTER);
+		txtOutputBox.setFont(new Font("Courier", Font.ROMAN_BASELINE, 12));
 		
 		JPanel panelControl = new JPanel();
 		getContentPane().add(panelControl, BorderLayout.SOUTH);
@@ -190,7 +198,9 @@ public class GeneratorCore extends JFrame {
 					ArrayList<Item> items = inventories.getItems(enabledInventories, inventoryProbabilities, inventoryAttributes, n);
 					String output = "";
 					for (Item c : items){
-						output += c.getName().replaceAll("[_]", " ") + "\n";
+						
+						output += c;
+
 					}
 					txtOutputBox.setText(output);
 				}
@@ -249,11 +259,5 @@ public class GeneratorCore extends JFrame {
 		panelValueOfItems.add(txtValueOfItems, gbc_txtValueOfItems);
 		
 		
-		
-		
-
-		
-
-
 	}
 }

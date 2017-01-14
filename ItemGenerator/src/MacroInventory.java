@@ -37,7 +37,12 @@ public class MacroInventory {
 				
 				// If the entry is not an item it should be an inventory heading.
 				if(line.split(" ").length < 3){
-					currentInventory = new Inventory(line);
+					
+					if(line.split(" ").length < 2){
+						currentInventory = new Inventory(line);
+					}else{
+						currentInventory = new TypeInventory(line, new TypeList());
+					}
 					inventories.add(currentInventory);
 				}else{
 					currentInventory.add(new Item(line));
@@ -72,6 +77,10 @@ public class MacroInventory {
 				totalProbabilities += inventoryProbabilities.get(i).getValue();
 			}
 		}
+		if (totalProbabilities == 0){
+			return items;
+		}
+		
 		
 		while(n > 0){
 			double selection = Math.random() * totalProbabilities;
@@ -123,7 +132,9 @@ public class MacroInventory {
 		return inventories.get(index).getName();
 	}
 	
-	
+	public Inventory getInventory( int index ){
+		return inventories.get(index);
+	}
 
 	
 }

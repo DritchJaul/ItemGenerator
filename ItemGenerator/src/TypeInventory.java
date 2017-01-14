@@ -11,8 +11,7 @@ public class TypeInventory extends Inventory{
 	
 	
 	public Item getItem(){
-		// Randomly select an item and type, then returns it 
-		return null;
+		return getItems(1).get(0);
 	}
 	
 	public Item getItemByAttribute(int attributeIndex, double lower, double upper){

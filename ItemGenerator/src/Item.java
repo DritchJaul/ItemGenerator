@@ -20,5 +20,16 @@ public class Item {
 		return Attributes.length;
 	}
 	
+	public String getAttribute(int index){
+		return Attributes[index];
+	}
+	
+	public String toString(){
+		String output = String.format("%-40s", Attributes[0]);
+		for (int i = 1; i < Attributes.length; i++){
+			output = String.format("%-10s %-10s", output, Attributes[i].replaceAll("[_]", " "));
+		}
+		return output + "\n";
+	}
 	
 }
