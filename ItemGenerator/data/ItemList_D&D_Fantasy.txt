@@ -1770,9 +1770,9 @@ Combined_Weapons,_Bullet(x10) 0.1gp -
 Combined_Weapons,_Gunpowder 0.1gp 10
 Combined_Weapons,_Slow_match 0.5gp 0.1
 Combined_Weapons,_Smokepowder 25gp 5
-SCROLLS TYPE
+SCROLLS spell
 Scroll - -
-WANDS TYPE
+WANDS spell
 Wand - -
-POTIONS TYPE
+POTIONS spell
 Potion - -

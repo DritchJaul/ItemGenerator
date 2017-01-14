@@ -9,10 +9,13 @@ import javax.swing.JTextField;
 public class MacroInventory {
 	
 	private ArrayList<Inventory> inventories;
+	private ArrayList<TypeList>  typeLists;
 	
-	public MacroInventory(String itemFile){
+	public MacroInventory(String itemFile, ArrayList<TypeList> types){
 		inventories = new ArrayList<Inventory>();
+		typeLists = types;
 		generateInventories(itemFile);
+
 	}
 	
 	private void generateInventories(String file){
@@ -41,7 +44,12 @@ public class MacroInventory {
 					if(line.split(" ").length < 2){
 						currentInventory = new Inventory(line);
 					}else{
-						currentInventory = new TypeInventory(line, new TypeList());
+						for (TypeList c : typeLists){
+							if (line.split(" ")[1].equals(c.getName())){
+								currentInventory = new TypeInventory(line, c);
+								break;
+							}
+						}
 					}
 					inventories.add(currentInventory);
 				}else{
@@ -95,7 +103,13 @@ public class MacroInventory {
 					}
 				}
 			}
-			items.add(inventories.get((int) selection).getItem());
+			if (inventories.get((int) selection) instanceof TypeInventory){
+				items.add(inventories.get((int) selection).getItem(inventoryAttributes.get((int) selection)));
+			}else{
+				items.add(inventories.get((int) selection).getItem());
+			}
+			
+
 			n--;
 		}
 		

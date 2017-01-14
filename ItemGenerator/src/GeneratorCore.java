@@ -35,13 +35,17 @@ public class GeneratorCore extends JFrame {
 	private ArrayList<JTextField> inventoryAttributes;
 	
 
+
 	public static void main(String[] args) {
 		
 		
 		// Generate the inventories from a given file
-		inventories = new MacroInventory("data/ItemList_D&D_Fantasy.txt");
+ 
+		ArrayList<TypeList> typeLists =  new ArrayList<TypeList>();
+		typeLists.add(new TypeList("data/TypeList_Spells_D&D_Fantasy.txt"));
+		inventories = new MacroInventory("data/ItemList_D&D_Fantasy.txt", typeLists);
 		
-		
+
 		
 		
 		
@@ -166,7 +170,7 @@ public class GeneratorCore extends JFrame {
 		
 		ScrollPane scrollPane = new ScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
-		scrollPane.setPreferredSize(new Dimension(500, 100));
+		scrollPane.setPreferredSize(new Dimension(700, 100));
 		
 		
 		JTextArea txtOutputBox = new JTextArea();

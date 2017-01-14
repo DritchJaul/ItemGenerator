@@ -6,10 +6,13 @@ public class Item {
 	
 	public Item(String line){
 		Attributes = line.split(" ");
+		for (int i = 0; i < Attributes.length; i++){
+			Attributes[i] = Attributes[i].replaceAll("[_]", " ");
+		}
 	}
 	
-	public String get(int att){
-		return Attributes[att];
+	public Item(String[] atts){
+		setAttributes(atts);
 	}
 	
 	public String getName(){
@@ -24,6 +27,19 @@ public class Item {
 		return Attributes[index];
 	}
 	
+	public void setAttribute(int index, String att){
+		Attributes[index] = att;
+	}
+	
+	public String[] getAttributes(){
+		return Attributes;
+	}
+	
+	public void setAttributes(String[] atts){
+		Attributes = atts;
+	}
+	
+	
 	public String toString(){
 		String output = String.format("%-40s", Attributes[0]);
 		for (int i = 1; i < Attributes.length; i++){
@@ -31,5 +47,15 @@ public class Item {
 		}
 		return output + "\n";
 	}
+	
+	public void add(String att){
+		String[] newAttributes = new String[Attributes.length + 1];
+		for (int i = 0; i < Attributes.length; i++){
+			newAttributes[i] = Attributes[i];
+		}
+		newAttributes[Attributes.length] = att;
+		Attributes = newAttributes;
+	}
+	
 	
 }
